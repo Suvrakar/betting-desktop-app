@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Horse Racing</title>
+  <style>
+    /* Paste the CSS code here */
+  </style>
+</head>
+
+<body>
+  <p style="text-align: center;">Press Any of the Button to See the Results Below</p>
+  <div class="BttnContainer">
+    <div style="margin-bottom: 20px;" class="buttonBox">
+      <button class="button box" id="show-button">Get All Horses</button>
+      <button class="button box" id="top-button">Get Top 6 by Avg. Earnings</button>
+      <button class="button box" id="top-metro-button">Get Metropolitan - Saturday Start</button>
+      <button class="button box" id="last-start-saturday">Get Same Track - Saturday Start </button>
+    </div>
+    <div style="margin-bottom: 20px;" class="buttonBox">
+      <button class="button box" id="last-start-placed">Get Winners at Last Race Distance</button>
+      <button class="button box" id="beatenBy-lessthan-6">Get Betan by less than 6 Lengths</button>
+      <button class="button box" id="last-28">Get Last 28 days Horses</button>
+      <button class="button box" id="austrlian-races">Get Top 8 Austrlian Races</button>
+    </div>
+  </div>
+
+
+  <div style="padding: 5px;">
+    <h4>Outputs:</h4>
+    <div id="horse-table"></div>
+    <div id="top-horse-table"></div>
+    <div id="top-metro-horse-table"></div>
+    <div id="last-start-horse-table"></div>
+    <div id="last-start-distance-horse-table"></div>
+    <div id="beatenBy-lessthan-6-table"></div>
+    <div id="last-28-table"></div>
+    <div id="australian-horses-table"></div>
+  </div>
+
+
+  <script src="./renderer.js"></script>
+</body>
+
+<style>
+  body {
+    background-color: #ebeced;
+  }
+
+  .buttonBox {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .box {
+    width: 50x;
+    height: 70x;
+    background-color: #ccc;
+    margin-right: 10px;
+  }
+
+  .button {
+    display: inline-block;
+    padding: 12px 24px;
+    margin: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    background-color: white;
+    border-radius: 4px;
+    border: 2px solid black;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .button:hover {
+    background-color: #d6d2d2;
+    color: black;
+  }
+
+  .button:active {
+    background-color: #d47b29;
+  }
+
+  .BttnContainer {
+    background-color: antiquewhite;
+  }
+
+  table {
+    padding-top: 20px;
+    border-collapse: collapse;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    overflow: auto;
+
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 8px;
+    border: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  tr:hover {
+    background-color: #ddd;
+  }
+</style>
+
+</html>

@@ -1,0 +1,11 @@
+# Node.js related files
+node_modules
+npm-debug.log*
+
+# Dependency directories
+jspm_packages/
+bower_components/
+
+# Distribution files
+dist/
+build/
