@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const mongoose = require("mongoose");
 const Horse = require("./Horse");
+const {Scrapper} = require("./Scrapper")
 
 let mainWindow;
 
@@ -35,6 +36,11 @@ async function connectToDatabase() {
   }
 }
 
+
+ipcMain.on("scrapper", async (event) => {
+  Scrapper();
+});
+
 ipcMain.on("getHorses", async (event) => {
   try {
     // query all horses in the database
@@ -51,25 +57,14 @@ ipcMain.on("getHorses", async (event) => {
 // query top 6 horses by average earnings
 ipcMain.on("getTopHorses", async (event) => {
   try {
-    // sort the horses by their average earnings and select the top 6
-    const horses = await Horse.aggregate([
-      {
-        $group: {
-          _id: "$horseName",
-          horseName: { $first: "$horseName" },
-          total_earnings: { $avg: "$total_earnings" },
-        },
-      },
-      { $sort: { total_earnings: -1 } },
-      { $limit: 6 },
-    ]);
+    const horses = await Horse.find().sort({ total_earnings: -1 }).limit(6);
 
     console.log("Top horses:", horses);
-    const success = event.reply("topHorsesData", JSON.stringify(horses));
+    const success = event.reply("horsesData", JSON.stringify(horses));
     console.log("Reply sent successfully:", success);
   } catch (error) {
     console.error(error);
-    event.reply("topHorsesData", []);
+    event.reply("horsesData", []);
   }
 });
 
@@ -79,7 +74,7 @@ ipcMain.on("getTopMetroHorses", async (event) => {
     const horses = await Horse.find({
       lastStartTrack: "Metropolitan",
       lastStartDay: { $regex: /^Saturday/ },
-    });
+    }).limit(6);
     console.log("Top horses:", horses);
     event.reply("horsesData", JSON.stringify(horses));
   } catch (error) {
@@ -87,6 +82,7 @@ ipcMain.on("getTopMetroHorses", async (event) => {
     event.reply("horsesData", []);
   }
 });
+
 
 
 //Get Horse with same track and day
@@ -110,7 +106,7 @@ ipcMain.on("getHorsesWithLastDistanceWinOrPlace", async (event) => {
   try {
     const horses = await Horse.find({
       lastStartTrack: { $eq: "$currentTrack" },
-      position: { $in: ["1st", "2nd"] },
+      position: { $in: ["1st", "2nd", "3rd"] },
       currentRaceDistance: { $eq: "$lastStartDistance" }
     }).exec();
     console.log("Top getHorsesWithLastDistanceWinOrPlace:", horses);
@@ -125,8 +121,8 @@ ipcMain.on("getHorsesWithLastDistanceWinOrPlace", async (event) => {
 ipcMain.on("getBeatenLessThanSixLengths", async (event) => {
   try {
     const horses = await Horse.find({
-      lastStartTrack: { $eq: "$currentTrack" },
-      lastStartDay: { $lt: "$lastStartDay" },
+      // lastStartTrack: { $eq: "$currentTrack" },
+      // lastStartDay: { $lt: "$lastStartDay" },
       lastStartLengths: { $lt: 6 },
       currentRaceBettingPosition: { $lte: 6 }
     }).exec();

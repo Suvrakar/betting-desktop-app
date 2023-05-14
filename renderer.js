@@ -9,7 +9,7 @@ const topTableE5 = document.getElementById("last-28-table");
 const topTableE6 = document.getElementById("australian-horses-table");
 
 
-
+const scrapperButton = document.getElementById("refresh-data");
 const showButton = document.getElementById("show-button");
 const topButton = document.getElementById("top-button");
 const topMetroButton = document.getElementById("top-metro-button");
@@ -25,14 +25,12 @@ const renderHorses = (horses, tableId) => {
     <th>Horse Name</th>
     <th>Horse Number</th>
     <th>Avg. Earnings</th>
-    <th>Horse Number</th>
   </tr>`;
   let tableBody = "";
   horses.forEach((horse) => {
     tableBody += `<tr>
       <td>${horse.horseName}</td>
       <td>${horse.horseNumber}</td>
-      <td>${horse.total_earnings}</td>
       <td>${horse.total_earnings}</td>
     </tr>`;
   });
@@ -59,91 +57,118 @@ const renderHorses = (horses, tableId) => {
   }
 };
 
+scrapperButton.addEventListener("click", () => {
+  ipcRenderer.send("scrapper");
+});
+
+
 showButton.addEventListener("click", () => {
-  topTableEl.innerHTML = "";
-  tableEl.innerHTML = "";
-  topTableE2.innerHTML = "";
-  topTableE3.innerHTML = "";
-  topTableE4.innerHTML = "";
-  topTableE5.innerHTML = "";
-  topTableE6.innerHTML = "";
+  const tablesToClear = [topTableEl, tableEl, topTableE2, topTableE3, topTableE4, topTableE5, topTableE6];
+  for (let table of tablesToClear) {
+    while (table.firstChild) {
+      table.removeChild(table.firstChild);
+    }
+  }
+
+  const tempMsgEl = document.createElement("tr");
+  tempMsgEl.innerHTML = "<td colspan='3'>Please Wait...</td>";
+  tableEl.appendChild(tempMsgEl);
+
   ipcRenderer.send("getHorses");
 });
 
+
+
 topButton.addEventListener("click", () => {
-  topTableEl.innerHTML = "";
-  tableEl.innerHTML = "";
-  topTableE2.innerHTML = "";
-  topTableE3.innerHTML = "";
-  topTableE4.innerHTML = "";
-  topTableE5.innerHTML = "";
-  topTableE6.innerHTML = "";
+  const tablesToClear = [topTableEl, tableEl, topTableE2, topTableE3, topTableE4, topTableE5, topTableE6];
+  for (let table of tablesToClear) {
+    while (table.firstChild) {
+      table.removeChild(table.firstChild);
+    }
+  }
+
+  const tempMsgEl = document.createElement("tr");
+  tempMsgEl.innerHTML = "<td colspan='3'>Please Wait...</td>";
+  tableEl.appendChild(tempMsgEl);
+
   ipcRenderer.send("getTopHorses");
 });
 
 topMetroButton.addEventListener("click", () => {
-  topTableEl.innerHTML = "";
-  tableEl.innerHTML = "";
-  topTableE2.innerHTML = "";
-  topTableE3.innerHTML = "";
-  topTableE4.innerHTML = "";
-  topTableE5.innerHTML = "";
-  topTableE6.innerHTML = "";
+  const tablesToClear = [topTableEl, tableEl, topTableE2, topTableE3, topTableE4, topTableE5, topTableE6];
+  for (let table of tablesToClear) {
+    while (table.firstChild) {
+      table.removeChild(table.firstChild);
+    }
+  }
+  const tempMsgEl = document.createElement("tr");
+  tempMsgEl.innerHTML = "<td colspan='3'>Please Wait...</td>";
+  tableEl.appendChild(tempMsgEl);
   ipcRenderer.send("getTopMetroHorses");
 });
 
 lastStartonSaturday.addEventListener("click", () => {
-  topTableEl.innerHTML = "";
-  tableEl.innerHTML = "";
-  topTableE2.innerHTML = "";
-  topTableE3.innerHTML = "";
-  topTableE4.innerHTML = "";
-  topTableE5.innerHTML = "";
-  topTableE6.innerHTML = "";
+  const tablesToClear = [topTableEl, tableEl, topTableE2, topTableE3, topTableE4, topTableE5, topTableE6];
+  for (let table of tablesToClear) {
+    while (table.firstChild) {
+      table.removeChild(table.firstChild);
+    }
+  }
+  const tempMsgEl = document.createElement("tr");
+  tempMsgEl.innerHTML = "<td colspan='3'>Please Wait...</td>";
+  tableEl.appendChild(tempMsgEl);
   ipcRenderer.send("getHorsesWithSameTrackAndDay");
 });
 
 lastStartonDistance.addEventListener("click", () => {
-  topTableEl.innerHTML = "";
-  tableEl.innerHTML = "";
-  topTableE2.innerHTML = "";
-  topTableE3.innerHTML = "";
-  topTableE4.innerHTML = "";
-  topTableE5.innerHTML = "";
-  topTableE6.innerHTML = "";
+  const tablesToClear = [topTableEl, tableEl, topTableE2, topTableE3, topTableE4, topTableE5, topTableE6];
+  for (let table of tablesToClear) {
+    while (table.firstChild) {
+      table.removeChild(table.firstChild);
+    }
+  }
+  const tempMsgEl = document.createElement("tr");
+  tempMsgEl.innerHTML = "<td colspan='3'>Please Wait...</td>";
+  tableEl.appendChild(tempMsgEl);
   ipcRenderer.send("getHorsesWithLastDistanceWinOrPlace");
 });
 
 betanbyless6Distance.addEventListener("click", () => {
-  topTableEl.innerHTML = "";
-  tableEl.innerHTML = "";
-  topTableE2.innerHTML = "";
-  topTableE3.innerHTML = "";
-  topTableE4.innerHTML = "";
-  topTableE5.innerHTML = "";
-  topTableE6.innerHTML = "";
+  const tablesToClear = [topTableEl, tableEl, topTableE2, topTableE3, topTableE4, topTableE5, topTableE6];
+  for (let table of tablesToClear) {
+    while (table.firstChild) {
+      table.removeChild(table.firstChild);
+    }
+  }
+  const tempMsgEl = document.createElement("tr");
+  tempMsgEl.innerHTML = "<td colspan='3'>Please Wait...</td>";
+  tableEl.appendChild(tempMsgEl);
   ipcRenderer.send("getBeatenLessThanSixLengths");
 });
 
 last28Days.addEventListener("click", () => {
-  topTableEl.innerHTML = "";
-  tableEl.innerHTML = "";
-  topTableE2.innerHTML = "";
-  topTableE3.innerHTML = "";
-  topTableE4.innerHTML = "";
-  topTableE5.innerHTML = "";
-  topTableE6.innerHTML = "";
+  const tablesToClear = [topTableEl, tableEl, topTableE2, topTableE3, topTableE4, topTableE5, topTableE6];
+  for (let table of tablesToClear) {
+    while (table.firstChild) {
+      table.removeChild(table.firstChild);
+    }
+  }
+  const tempMsgEl = document.createElement("tr");
+  tempMsgEl.innerHTML = "<td colspan='3'>Please Wait...</td>";
+  tableEl.appendChild(tempMsgEl);
   ipcRenderer.send("getHorsesLastStartWithin28Days");
 });
 
 austrlianRaces.addEventListener("click", () => {
-  topTableEl.innerHTML = "";
-  tableEl.innerHTML = "";
-  topTableE2.innerHTML = "";
-  topTableE3.innerHTML = "";
-  topTableE4.innerHTML = "";
-  topTableE5.innerHTML = "";
-  topTableE6.innerHTML = "";
+  const tablesToClear = [topTableEl, tableEl, topTableE2, topTableE3, topTableE4, topTableE5, topTableE6];
+  for (let table of tablesToClear) {
+    while (table.firstChild) {
+      table.removeChild(table.firstChild);
+    }
+  }
+  const tempMsgEl = document.createElement("tr");
+  tempMsgEl.innerHTML = "<td colspan='3'>Please Wait...</td>";
+  tableEl.appendChild(tempMsgEl);
   ipcRenderer.send("getAustralianRaces");
 });
 
