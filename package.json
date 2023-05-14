@@ -12,7 +12,8 @@
   "dependencies": {
     "@electron/remote": "^2.0.9",
     "electron-router": "^0.5.1",
-    "mongoose": "^7.1.0"
+    "mongoose": "^7.1.0",
+    "puppeteer": "^20.2.0"
   },
   "devDependencies": {
     "electron": "^24.1.3",

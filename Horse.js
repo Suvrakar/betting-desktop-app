@@ -1,17 +1,19 @@
 const mongoose = require('mongoose');
 
 const horseSchema = new mongoose.Schema({
-  name: String,
+  horseName: String,
+  horseNumber: String,
   position: String,
   age: Number,
-  total_earnings: Number,
+  total_earnings: String,
   track: String,
   raceDistance: String,
+  raceNumber: String,
   odds: Number,
   lastStartTrack: String,
   lastStartDay: String,
-  startDate: Date,
-  endDate: Date,
+  startDate: String,
+  endDate: String,
   previousTrack: String,
   currentTrack: String,
   races: String,

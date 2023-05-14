@@ -55,8 +55,8 @@ ipcMain.on("getTopHorses", async (event) => {
     const horses = await Horse.aggregate([
       {
         $group: {
-          _id: "$name",
-          name: { $first: "$name" },
+          _id: "$horseName",
+          horseName: { $first: "$horseName" },
           total_earnings: { $avg: "$total_earnings" },
         },
       },

@@ -22,30 +22,18 @@ const austrlianRaces = document.getElementById("austrlian-races");
 
 const renderHorses = (horses, tableId) => {
   const tableHeader = `<tr>
-    <th>Name</th>
-    <th>Position</th>
-    <th>Age</th>
-    <th>Total Earnings</th>
-    <th>Track</th>
-    <th>Race Distance</th>
-    <th>Odds</th>
-    <th>Last Start Track</th>
-    <th>Last Start Day</th>
-    <th>Start Date</th>
+    <th>Horse Name</th>
+    <th>Horse Number</th>
+    <th>Avg. Earnings</th>
+    <th>Horse Number</th>
   </tr>`;
   let tableBody = "";
   horses.forEach((horse) => {
     tableBody += `<tr>
-      <td>${horse.name}</td>
-      <td>${horse.position}</td>
-      <td>${horse.age}</td>
+      <td>${horse.horseName}</td>
+      <td>${horse.horseNumber}</td>
       <td>${horse.total_earnings}</td>
-      <td>${horse.track}</td>
-      <td>${horse.raceDistance}</td>
-      <td>${horse.odds}</td>
-      <td>${horse.lastStartTrack}</td>
-      <td>${horse.lastStartDay}</td>
-      <td>${horse.startDate}</td>
+      <td>${horse.total_earnings}</td>
     </tr>`;
   });
 
