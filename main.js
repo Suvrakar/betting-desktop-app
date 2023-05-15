@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const mongoose = require("mongoose");
 const Horse = require("./Horse");
-const {Scrapper} = require("./Scrapper")
+const { Scrapper } = require("./Scrapper")
 
 let mainWindow;
 
@@ -38,7 +38,8 @@ async function connectToDatabase() {
 
 
 ipcMain.on("scrapper", async (event) => {
-  Scrapper();
+  event.reply("horsesData", []);
+  await Scrapper();
 });
 
 ipcMain.on("getHorses", async (event) => {
@@ -88,49 +89,50 @@ ipcMain.on("getTopMetroHorses", async (event) => {
 //Get Horse with same track and day
 ipcMain.on('getHorsesWithSameTrackAndDay', async (event) => {
   try {
+    // Assuming you have a variable named 'currentTrackValue' that holds the current track value
+    const currentTrackValue = 'Aus';
+
     const horses = await Horse.find({
-      currentTrack: { $eq: "$currentTrack" },
-      lastStartDay: { $eq: "$lastStartDay" },
+      previousTrack: currentTrackValue,
+      lastStartDay: 'Saturday',
     }).exec();
     console.log("Top getHorsesWithSameTrackAndDay:", horses);
-    event.reply('horsesWithSameTrackAndDay', JSON.stringify(horses));
+    event.reply('horsesData', JSON.stringify(horses));
   } catch (err) {
     console.error(err);
-    event.reply('horsesWithSameTrackAndDay', []);
+    event.reply('horsesData', []);
   }
 });
+
 
 
 //Get Horses With Last DistanceWinOrPlace
 ipcMain.on("getHorsesWithLastDistanceWinOrPlace", async (event) => {
   try {
     const horses = await Horse.find({
-      lastStartTrack: { $eq: "$currentTrack" },
-      position: { $in: ["1st", "2nd", "3rd"] },
-      currentRaceDistance: { $eq: "$lastStartDistance" }
+      position: { $in: ["1st", "2nd", "3rd"] }
     }).exec();
-    console.log("Top getHorsesWithLastDistanceWinOrPlace:", horses);
-    event.reply("horsesWithLastDistanceWinOrPlaceData", JSON.stringify(horses));
+    console.log("Horses with last distance win or place:", horses);
+    event.reply("horsesData", JSON.stringify(horses));
   } catch (error) {
     console.log(error);
-    event.reply("horsesWithLastDistanceWinOrPlaceData", JSON.stringify({ error: "An error occurred while getting horses data." }));
+    event.reply("horsesData", JSON.stringify({ error: "An error occurred while getting horses data." }));
   }
 });
+
 
 //horses that were beaten by less than 6 lengths in their last start and were in the top 6 lines of betting.
 ipcMain.on("getBeatenLessThanSixLengths", async (event) => {
   try {
     const horses = await Horse.find({
-      // lastStartTrack: { $eq: "$currentTrack" },
-      // lastStartDay: { $lt: "$lastStartDay" },
-      lastStartLengths: { $lt: 6 },
-      currentRaceBettingPosition: { $lte: 6 }
+      lastStartLengths: 6,
+      currentRaceBettingPosition: 6
     }).exec();
     console.log("Top getBeatenLessThanSixLengths:", horses);
-    event.reply("getBeatenLessThanSixLengthsData", JSON.stringify(horses));
+    event.reply("horsesData", JSON.stringify(horses));
   } catch (error) {
     console.log(error);
-    event.reply("getBeatenLessThanSixLengthsData", JSON.stringify({ error: "An error occurred while getting horses data." }));
+    event.reply("horsesData", JSON.stringify({ error: "An error occurred while getting horses data." }));
   }
 });
 
@@ -139,59 +141,14 @@ ipcMain.on("getBeatenLessThanSixLengths", async (event) => {
 ipcMain.on('getHorsesLastStartWithin28Days', async (event) => {
   try {
     const horses = await Horse.find({
-      lastStartDate: { $gte: new Date(Date.now() - 28 * 24 * 60 * 60 * 1000) }
+      lastStartDate: "11/06/2023",
+      // lastStartDate: { $gte: new Date(Date.now() - 28 * 24 * 60 * 60 * 1000) }
     }).exec();
     console.log("Horses last started within 28 days:", horses);
-    event.reply('horsesLastStartWithin28DaysData', JSON.stringify(horses));
+    event.reply('horsesData', JSON.stringify(horses));
   } catch (err) {
     console.error(err);
-    event.reply('horsesLastStartWithin28DaysData', []);
-  }
-});
-
-
-//horses that were beaten by less than 6 lengths in their last start and were in the top 6 lines of betting.
-ipcMain.on('getHorsesLastStartWithin28Days', async (event) => {
-  try {
-    const horses = await Horse.find({
-      lastStartDate: { $gte: new Date(Date.now() - 28 * 24 * 60 * 60 * 1000) }
-    }).exec();
-    console.log("Horses last started within 28 days:", horses);
-    event.reply('horsesLastStartWithin28DaysData', JSON.stringify(horses));
-  } catch (err) {
-    console.error(err);
-    event.reply('horsesLastStartWithin28DaysData', []);
-  }
-});
-
-
-//get Horses LastStart With in 28Days
-ipcMain.on('getHorsesLastStartWithin28Days', async (event) => {
-  try {
-    const horses = await Horse.find({
-      lastStartDate: { $gte: new Date(Date.now() - 28 * 24 * 60 * 60 * 1000) }
-    }).exec();
-    console.log("Horses last started within 28 days:", horses);
-    event.reply('horsesLastStartWithin28DaysData', JSON.stringify(horses));
-  } catch (err) {
-    console.error(err);
-    event.reply('horsesLastStartWithin28DaysData', []);
-  }
-});
-
-
-
-//filters the Australian races with 8 horses or more.
-ipcMain.on('getHorsesLastStartWithin28Days', async (event) => {
-  try {
-    const horses = await Horse.find({
-      lastStartDate: { $gte: new Date(Date.now() - 28 * 24 * 60 * 60 * 1000) }
-    }).exec();
-    console.log("Horses last started within 28 days:", horses);
-    event.reply('horsesLastStartWithin28DaysData', JSON.stringify(horses));
-  } catch (err) {
-    console.error(err);
-    event.reply('horsesLastStartWithin28DaysData', []);
+    event.reply('horsesData', []);
   }
 });
 
@@ -208,10 +165,10 @@ ipcMain.on('getAustralianRaces', async (event) => {
       ]
     }).limit(8).exec();
     console.log("Australian races:", horses);
-    event.reply('AustralianRacesData', JSON.stringify(horses));
+    event.reply('horsesData', JSON.stringify(horses));
   } catch (err) {
     console.error(err);
-    event.reply('AustralianRacesData', []);
+    event.reply('horsesData', []);
   }
 });
 
