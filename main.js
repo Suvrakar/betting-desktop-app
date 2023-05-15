@@ -46,11 +46,8 @@ ipcMain.on("getHorses", async (event) => {
   try {
     // query all horses in the database
     const horses = await Horse.find({});
-    console.log("horses", horses);
     const success = event.reply("horsesData", JSON.stringify(horses));
-    console.log("Reply sent successfully:", success);
   } catch (error) {
-    console.error(error);
     event.reply("horsesData", []);
   }
 });
@@ -60,9 +57,7 @@ ipcMain.on("getTopHorses", async (event) => {
   try {
     const horses = await Horse.find().sort({ total_earnings: -1 }).limit(6);
 
-    console.log("Top horses:", horses);
     const success = event.reply("horsesData", JSON.stringify(horses));
-    console.log("Reply sent successfully:", success);
   } catch (error) {
     console.error(error);
     event.reply("horsesData", []);
@@ -76,7 +71,6 @@ ipcMain.on("getTopMetroHorses", async (event) => {
       lastStartTrack: "Metropolitan",
       lastStartDay: { $regex: /^Saturday/ },
     }).limit(6);
-    console.log("Top horses:", horses);
     event.reply("horsesData", JSON.stringify(horses));
   } catch (error) {
     console.error(error);
@@ -95,11 +89,9 @@ ipcMain.on('getHorsesWithSameTrackAndDay', async (event) => {
     const horses = await Horse.find({
       previousTrack: currentTrackValue,
       lastStartDay: 'Saturday',
-    }).exec();
-    console.log("Top getHorsesWithSameTrackAndDay:", horses);
+    }).limit(6).exec();
     event.reply('horsesData', JSON.stringify(horses));
   } catch (err) {
-    console.error(err);
     event.reply('horsesData', []);
   }
 });
@@ -111,11 +103,9 @@ ipcMain.on("getHorsesWithLastDistanceWinOrPlace", async (event) => {
   try {
     const horses = await Horse.find({
       position: { $in: ["1st", "2nd", "3rd"] }
-    }).exec();
-    console.log("Horses with last distance win or place:", horses);
+    }).limit(5).exec();
     event.reply("horsesData", JSON.stringify(horses));
   } catch (error) {
-    console.log(error);
     event.reply("horsesData", JSON.stringify({ error: "An error occurred while getting horses data." }));
   }
 });
@@ -127,11 +117,9 @@ ipcMain.on("getBeatenLessThanSixLengths", async (event) => {
     const horses = await Horse.find({
       lastStartLengths: 6,
       currentRaceBettingPosition: 6
-    }).exec();
-    console.log("Top getBeatenLessThanSixLengths:", horses);
+    }).limit(4).exec();
     event.reply("horsesData", JSON.stringify(horses));
   } catch (error) {
-    console.log(error);
     event.reply("horsesData", JSON.stringify({ error: "An error occurred while getting horses data." }));
   }
 });
@@ -142,12 +130,9 @@ ipcMain.on('getHorsesLastStartWithin28Days', async (event) => {
   try {
     const horses = await Horse.find({
       lastStartDate: "11/06/2023",
-      // lastStartDate: { $gte: new Date(Date.now() - 28 * 24 * 60 * 60 * 1000) }
-    }).exec();
-    console.log("Horses last started within 28 days:", horses);
+    }).limit(3).exec();
     event.reply('horsesData', JSON.stringify(horses));
   } catch (err) {
-    console.error(err);
     event.reply('horsesData', []);
   }
 });
@@ -164,10 +149,8 @@ ipcMain.on('getAustralianRaces', async (event) => {
         { races: "australian" },
       ]
     }).limit(8).exec();
-    console.log("Australian races:", horses);
     event.reply('horsesData', JSON.stringify(horses));
   } catch (err) {
-    console.error(err);
     event.reply('horsesData', []);
   }
 });

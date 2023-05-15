@@ -180,21 +180,18 @@ austrlianRaces.addEventListener("click", () => {
 ipcRenderer.on("horsesData", (event, horses) => {
   const receivedHorses = JSON.parse(horses);
   renderHorses(receivedHorses, "horse-table");
-  console.log(receivedHorses);
 });
 
 //Top 6 horses
 ipcRenderer.on("topHorsesData", (event, horses) => {
   const receivedHorses = JSON.parse(horses);
   renderHorses(receivedHorses, "top-horse-table");
-  console.log(receivedHorses);
 });
 
 //Top Metro Horse Data
 ipcRenderer.on("topMetroHorsesData", (event, horses) => {
   const receivedHorses = JSON.parse(horses);
   renderHorses(receivedHorses, "top-metro-horse-table");
-  console.log(receivedHorses);
 });
 
 
@@ -202,7 +199,6 @@ ipcRenderer.on("topMetroHorsesData", (event, horses) => {
 ipcRenderer.on("horsesWithSameTrackAndDay", (event, horses) => {
   const receivedHorses = JSON.parse(horses);
   renderHorses(receivedHorses, "last-start-horse-table");
-  console.log(receivedHorses);
 });
 
 
@@ -210,7 +206,6 @@ ipcRenderer.on("horsesWithSameTrackAndDay", (event, horses) => {
 ipcRenderer.on("horsesWithLastDistanceWinOrPlaceData", (event, horses) => {
   const receivedHorses = JSON.parse(horses);
   renderHorses(receivedHorses, "last-start-distance-horse-table");
-  console.log(receivedHorses);
 });
 
 
@@ -218,14 +213,12 @@ ipcRenderer.on("horsesWithLastDistanceWinOrPlaceData", (event, horses) => {
 ipcRenderer.on("getBeatenLessThanSixLengthsData", (event, horses) => {
   const receivedHorses = JSON.parse(horses);
   renderHorses(receivedHorses, "beatenBy-lessthan-6-table");
-  console.log(receivedHorses);
 });
 
 //Get horsesLastStartWithin28DaysData
 ipcRenderer.on("horsesLastStartWithin28DaysData", (event, horses) => {
   const receivedHorses = JSON.parse(horses);
   renderHorses(receivedHorses, "last-28-table");
-  console.log(receivedHorses);
 });
 
 
@@ -233,7 +226,6 @@ ipcRenderer.on("horsesLastStartWithin28DaysData", (event, horses) => {
 ipcRenderer.on("AustralianRacesData", (event, horses) => {
   const receivedHorses = JSON.parse(horses);
   renderHorses(receivedHorses, "australian-horses-table");
-  console.log(receivedHorses);
 });
 
 
